@@ -7,6 +7,8 @@
   --color-light--1: rgb(170, 170, 170);
   --color-light--2: #e8e8e8;
   --color-light--3: rgb(220, 220, 220);
+
+  --color-red: rgb(228, 27, 36);
 }
 
 * {
@@ -191,6 +193,33 @@ a:visited {
   font-size: 1.3rem;
   text-align: center;
   color: var(--color-light--1);
+}
+
+.footer__button {
+  display: flex;
+  justify-content: center;
+}
+
+.reset__btn {
+  background-color: var(--color-red);
+  color: white;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1.4rem;
+  width: 20rem;
+  border-style: none;
+  transition: all 0.2s linear;
+}
+.reset__btn:hover {
+  color: var(--color-red);
+  background-color: var(--color-light--2);
+}
+
+.reset__btn.hidden {
+  display: none;
 }
 
 .footer__link:link,

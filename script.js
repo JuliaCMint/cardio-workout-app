@@ -7,6 +7,7 @@ const inputDistance = document.querySelector('.form__input--distance');
 const inputDuration = document.querySelector('.form__input--duration');
 const inputTemp = document.querySelector('.form__input--temp');
 const inputClimb = document.querySelector('.form__input--climb');
+const resetBtn = document.querySelector('.reset__btn');
 
 class Workout {
   date = new Date();
@@ -77,6 +78,7 @@ class App {
     inputType.addEventListener('change', this._toggleClimbField);
     containerWorkouts.addEventListener('click', this._moveToWorkout.bind(this));
     containerWorkouts.addEventListener('click', this._removeWorkout.bind(this));
+    resetBtn.addEventListener('click', this._reset.bind(this));
   }
 
   _getPosition() {
@@ -274,6 +276,7 @@ class App {
     }
 
     form.insertAdjacentHTML('afterend', html);
+    resetBtn.classList.remove('hidden');
   }
 
   _removeWorkout(e) {
@@ -331,9 +334,10 @@ class App {
     });
   }
 
-  reset() {
+  _reset() {
     localStorage.removeItem('workouts');
     location.reload();
+    resetBtn.classList.add('hidden');
   }
 }
 
