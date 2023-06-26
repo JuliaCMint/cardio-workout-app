@@ -63,6 +63,7 @@ class App {
   #map;
   #mapEvent;
   #workouts = [];
+  #markers = L.layerGroup();
 
   constructor() {
     // get user's location
@@ -75,6 +76,7 @@ class App {
     form.addEventListener('submit', this._newWorkout.bind(this));
     inputType.addEventListener('change', this._toggleClimbField);
     containerWorkouts.addEventListener('click', this._moveToWorkout.bind(this));
+    containerWorkouts.addEventListener('click', this._removeWorkout.bind(this));
   }
 
   _getPosition() {
@@ -82,7 +84,7 @@ class App {
       navigator.geolocation.getCurrentPosition(
         this._loadMap.bind(this),
         function () {
-          alert('Sorry we could not  find your location');
+          alert('Sorry we could not find your location');
         }
       );
     }
@@ -175,9 +177,9 @@ class App {
         return alert('Enter a positive number!');
       workout = new Cycling([lat, lng], distance, duration, climb);
     }
+
     // add new object to the object array
     this.#workouts.push(workout);
-    console.log(workout);
 
     // show workout on the map
 
@@ -195,8 +197,7 @@ class App {
   }
 
   _displayWorkout(workout) {
-    L.marker(workout.coords)
-      .addTo(this.#map)
+    const marker = L.marker(workout.coords)
       .bindPopup(
         L.popup({
           maxWidth: 200,
@@ -210,13 +211,23 @@ class App {
         `${workout.type === 'running' ? '🏃' : '🚵‍♂️'} ${workout.description}`
       )
       .openPopup();
+    this.#markers.addLayer(marker);
+    this.#markers.addTo(this.#map);
+    workout.marker_id = this.#markers.getLayerId(marker);
   }
 
   _displayWorkoutOnSidebar(workout) {
     let html = `<li class="workout workout--${workout.type}" data-id="${
       workout.id
     }">
+    <div class="workout__header">
+    <div class="title__container">
     <h2 class="workout__title">${workout.description}</h2>
+    </div>
+    <button class="remove__btn">❌</button>
+    </div>
+    
+    <div class="all__details">
     <div class="workout__details">
       <span class="workout__icon">${
         workout.type === 'running' ? '🏃' : '🚵‍♂️'
@@ -242,6 +253,7 @@ class App {
       <span class="workout__value">${workout.temp}</span>
       <span class="workout__unit">step/min</span>
     </div>
+    </div>
     </li>
     `;
     }
@@ -263,9 +275,32 @@ class App {
 
     form.insertAdjacentHTML('afterend', html);
   }
+
+  _removeWorkout(e) {
+    // remove workout from sidebar
+    if (e.target.className != 'remove__btn') return;
+
+    const workout = e.target.closest('.workout');
+
+    const workoutToDelete = this.#workouts.find(
+      item => item.id == workout.dataset.id
+    );
+
+    workout.remove(workoutToDelete);
+
+    // remove marker from the map
+
+    this.#markers.removeLayer(workoutToDelete.marker_id);
+
+    // remove from localStorage
+
+    const newArr = this.#workouts.filter(item => item.id != workout.dataset.id);
+    this.#workouts = newArr;
+    this._addWorkoutsToLocalStorage();
+  }
+
   _moveToWorkout(e) {
     const workoutElement = e.target.closest('.workout');
-    console.log(workoutElement);
 
     if (!workoutElement) return;
 
@@ -286,7 +321,6 @@ class App {
 
   _getLocalStorageData() {
     const data = JSON.parse(localStorage.getItem('workouts'));
-    console.log(data);
 
     if (!data) return;
 

@@ -65,6 +65,14 @@ a:visited {
 .workouts::-webkit-scrollbar {
   width: 0;
 }
+.remove__btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.remove__btn:hover {
+  transform: rotate(30deg);
+}
 
 .workout {
   background-color: var(--color-dark--2);
@@ -74,8 +82,8 @@ a:visited {
   cursor: pointer;
 
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  gap: 0.75rem 1.5rem;
+  /* grid-template-columns: 1fr 1fr 1fr 1fr; */
+  gap: 2.75rem;
 }
 .workout--running {
   border-left: 5px solid var(--color-brand--2);
@@ -83,13 +91,20 @@ a:visited {
 .workout--cycling {
   border-left: 5px solid var(--color-brand--1);
 }
+.workout__header {
+  display: flex;
+  justify-content: space-between;
+}
 
 .workout__title {
   font-size: 1.7rem;
   font-weight: 600;
   grid-column: 1 / -1;
 }
-
+.all__details {
+  display: flex;
+  justify-content: space-between;
+}
 .workout__details {
   display: flex;
   align-items: baseline;
