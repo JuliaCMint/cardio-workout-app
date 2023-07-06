@@ -11,7 +11,7 @@
 
 #### DEMO
 
-https://eunoia-store.netlify.app/
+https://cardio-workout-app.netlify.app/
 
 #### FEATURES
 
