@@ -26,4 +26,6 @@ https://cardio-workout-app.netlify.app/
 
 #### PREVIEW
 
-<img width="1440" alt="Cardio Workout App" src="https://github.com/JuliaCMint/cardio-workout-app/assets/105377899/d8e285a0-35b9-4a7c-afef-102c202b8b7c">
+<img width="1440" alt="CardioApp" src="https://github.com/JuliaCMint/cardio-workout-app/assets/105377899/8329e231-661f-420a-866e-d71ee784e1de">
+
+
